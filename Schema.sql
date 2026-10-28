@@ -1,0 +1,49 @@
+
+CREATE DATABASE InventoryDb;
+GO
+
+
+USE InventoryDb;
+GO
+
+CREATE TABLE Customers (
+    CustomerID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    CreatedAt DATETIME2 DEFAULT SYSDATETIME()
+);
+
+CREATE TABLE Products (
+    ProductID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    SKU NVARCHAR(50) NOT NULL UNIQUE,
+    Price DECIMAL(18,2) NOT NULL,
+    StockQuantity INT NOT NULL DEFAULT 0,
+    CreatedAt DATETIME2 DEFAULT SYSDATETIME()
+);
+
+CREATE TABLE Orders (
+    OrderID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    OrderDate DATETIME2 DEFAULT SYSDATETIME(),
+    TotalAmount DECIMAL(18,2) NOT NULL,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+    CONSTRAINT FK_Orders_Customers FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE OrderItems (
+    OrderItemID INT IDENTITY(1,1) PRIMARY KEY,
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(18,2) NOT NULL,
+    CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (OrderID) REFERENCES Orders(OrderID) ON DELETE CASCADE,
+    CONSTRAINT FK_OrderItems_Products FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE INDEX IX_Orders_CustomerID ON Orders(CustomerID);
+CREATE INDEX IX_Orders_OrderDate ON Orders(OrderDate);
+CREATE INDEX IX_OrderItems_OrderID ON OrderItems(OrderID);
+CREATE INDEX IX_OrderItems_ProductID ON OrderItems(ProductID);
+GO
