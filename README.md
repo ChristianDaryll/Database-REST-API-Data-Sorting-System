@@ -14,7 +14,7 @@ A robust, production-grade backend web service built with **ASP.NET Core**, **En
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Backend Framework:** ASP.NET Core Web API (.NET 8 / .NET 9)
 * **Data Access:** Entity Framework Core (EF Core) & LINQ
