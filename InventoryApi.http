@@ -1,0 +1,24 @@
+@InventoryApi_HostAddress = http://localhost:5246
+
+GET {{InventoryApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+### GET All Orders
+GET {{InventoryApi_HostAddress}}/api/orders
+Accept: application/json
+
+### Create a New Order
+POST {{InventoryApi_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+  ]
+}
